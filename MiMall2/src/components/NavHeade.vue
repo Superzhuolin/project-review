@@ -162,6 +162,7 @@ export default {
   mounted() {
     this.getProductlist();
     let params = this.$route.params;
+    // 从登录页面跳转过来才调用（可以通过导航守卫的方式）
     if(params && params.from == "login"){
       this.getCartCount();
     }
@@ -188,12 +189,12 @@ export default {
     })
     },
     logout(){
-      this.axios.post("/user/logout").then((res) => {
+      this.axios.post("/user/logout").then(() => {
         this.$message.success("退出成功");  
-        this.$cookie.set("useId",'',{expires:'-1'});
+        this.$cookie.set("useId",'',{expires:'-1'}); // 清除cookie中useID，并且让cookie即刻过期
         this.$store.dispatch("saveUserName",'');//读取后,保存用户名
         this.$store.dispatch("saveCartCount",'0');//读取后,保存用户名
-        });
+      });
     },
     goToCart(){
       this.$router.push("/cart");

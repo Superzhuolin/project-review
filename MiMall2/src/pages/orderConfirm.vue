@@ -117,15 +117,18 @@
               </li>
             </ul>
           </div>
+
           <div class="item-shipping">
             <h2>配送方式</h2>
             <span>包邮</span>
           </div>
+
           <div class="item-invoice">
             <h2>发票</h2>
             <a href="javascript:;">电子发票</a>
             <a href="javascript:;">个人</a>
           </div>
+          
           <!-- 商品价格细节 -->
           <div class="detail">
             <div class="item">

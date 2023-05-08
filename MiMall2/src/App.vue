@@ -15,6 +15,8 @@ export default {
     };
   },
   mounted() {
+    // 通过能否获取的到useId，判断当前是否是登录状态
+    // 避免为登录时获取用户名跟购物车数量
     if(this.$cookie.get("userId")){
       this.getUser();
       this.getCartCount();

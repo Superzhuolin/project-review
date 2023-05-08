@@ -84,7 +84,7 @@ export default {
     },
     ...mapActions(['saveUserName']),
     register(){
-      this.axios.post("/user/login",{
+      this.axios.post("/user/register",{
         // username:"this.username",password:"this.password",
         username:"admin1",password:"admin1",email:"admin1@163.com"
       }).then(()=>{

@@ -103,7 +103,6 @@ export default{
       showPayModal:false,//是否展示二次支付弹框
       payment:0,//订单总金额
       T:"",//定时器ID
-
     }
   },
   mounted(){
@@ -126,6 +125,7 @@ export default{
       //打开新的窗口(要拼接id)
         window.open('/#/order/alipay?orderId='+this.orderId,'_blank');
       }
+      // 微信支付
       else{
           this.axios.post("/pay",{
             orderId:this.orderId,
@@ -138,7 +138,7 @@ export default{
             //通过QRCode二维码插件,讲字符串转化为base64位的图片,并将图片保存后传给子组件渲染
               this.showPay = true; //支付成功,弹框显示
               this.payImg = url ; //支付二维码图片=url地址
-              this.loopOrderState();
+              this.loopOrderState();  // 二维码弹框生成后就开始轮询订单状态
             }).catch( ()=>{
               this.$message.error("微信支付二维码生成失败,请稍后重试");
             })
@@ -149,13 +149,14 @@ export default{
        this.showPay = false;
        this.showPayModal=true;//是否完成支付
        clearInterval(this.T);//关闭定时器
-    },//查询当前订单支付状态
+    },
+    //轮询当前订单支付状态
+    // 订单状态：0-已取消 10-未付款 20-已付款  40-已发货，50-交易成功，60-交易关闭
     loopOrderState(){
-      this.T=setInterval(()=>{
+      this.T=setInterval(()=>{  //setInterval会一直刷新接口
         this.axios.get(`/orders/${this.orderId}`).then((res)=>{
           //已付款
           if(res.status == 20){
-            // 一直刷新接口
             clearInterval(this.T);//关闭定时器
             this.goOrderList();//付款后自动 回到订单页面
           }

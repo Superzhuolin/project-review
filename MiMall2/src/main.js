@@ -24,22 +24,25 @@ axios.defaults.timeout = 8000;
 // axios.defaults.baseURL=env.baseURL;
 
 //接口错误拦截    所以接口的返回值一定会经过response
-axios.interceptors.response.use(function (response) {
-  let res = response.data;//取到的接口值
-  let path = location.hash;//获取哈希路由地址
+axios.interceptors.response.use(
+  // 业务拦截1
+  function (response) {
+    let res = response.data;//取到的接口值
+    let path = location.hash;//获取哈希路由地址
 
-  if (res.status == 0) { //状态码为0代表成功
-    return res.data;//接口返回值
-  } else if (res.status == 10) {  //状态码为10代表未登录
-    //main.js中无法用路由跳转页面,因为路由挂载在vue实例中，this没有指向vue
-    if (path != "#/index") {//浏览非主页 会跳转到登录页面
-      window.location.href = "/#/login"
-    }
-    return Promise.reject(res);     //返回promise错误状态
-  } else{ // 真正报错
-    this.$message.warning(res.msg);
-    return Promise.reject(res);
+    if (res.status == 0) { //状态码为0代表成功
+      return res.data;//接口返回值
+    } else if (res.status == 10) {  //状态码为10代表未登录
+      //main.js中无法用路由跳转页面,因为路由挂载在vue实例中，this没有指向vue
+      if (path != "#/index") {//浏览非主页 会跳转到登录页面
+        window.location.href = "/#/login"
+      }
+      return Promise.reject(res);     //返回promise错误状态
+    } else{ // 真正报错
+      this.$message.warning(res.msg);
+      return Promise.reject(res);
   }
+  // http状态请求的拦截
 },(error)=>{
   let res = error.response;
   Message.error(res.data.message);
