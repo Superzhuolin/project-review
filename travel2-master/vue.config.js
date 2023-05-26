@@ -12,7 +12,7 @@ module.exports = defineConfig({
     proxy: {
       '/api': {
         // 请求API时，把请求转接到8080端口
-        target: 'http://localhost:8083',
+        target: 'http://localhost:8080',
         ws: true,
         changeOrigin: true,
         pathRewrite: {

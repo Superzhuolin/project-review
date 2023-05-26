@@ -66,6 +66,7 @@ export default {
     };
   },
   methods:{
+    ...mapActions(['saveUserName']),
     login(){
       let {username,password} =this;
       this.axios.post("/user/login",{
@@ -82,7 +83,6 @@ export default {
         });
       })
     },
-    ...mapActions(['saveUserName']),
     register(){
       this.axios.post("/user/register",{
         // username:"this.username",password:"this.password",
